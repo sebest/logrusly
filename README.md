@@ -3,6 +3,8 @@
 ## Usage
 
 ```go
+package main
+
 import (
 	"github.com/Sirupsen/logrus"
 	"github.com/sebest/logrusly"
@@ -20,10 +22,9 @@ func main() {
 		"age":  42,
 	}).Error("Hello world!")
 
-    // Flush is automatic for panic/fatal and some signals (TERM, QUIT, HUP, INT)
-    // Just make just to Flush() before exiting or you may loose up to 5 seconds
-    // worth of messages.
-    hook.Flush()
+	// Flush is automatic for panic/fatal
+	// Just make just to Flush() before exiting or you may loose up to 5 seconds
+	// worth of messages.
+	hook.Flush()
 }
-
 ```

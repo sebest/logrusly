@@ -1,14 +1,11 @@
 package logrusly
 
 import (
-	"os"
-	"os/signal"
 	"strings"
-	"syscall"
 	"time"
 
 	"github.com/Sirupsen/logrus"
-        // Use this fork until the fixes are accepted upstream https://github.com/segmentio/go-loggly/pull/6
+	// Use this fork until the fixes are accepted upstream https://github.com/segmentio/go-loggly/pull/6
 	"github.com/sebest/go-loggly"
 )
 
@@ -22,18 +19,18 @@ func NewLogglyHook(token string, host string, tags ...string) *LogglyHook {
 	client := loggly.New(token, tags...)
 	client.Defaults = loggly.Message{}
 
-	sigc := make(chan os.Signal, 1)
-	signal.Notify(sigc,
-		syscall.SIGHUP,
-		syscall.SIGINT,
-		syscall.SIGTERM,
-		syscall.SIGQUIT)
-	go func() {
-		s := <-sigc
-		if s != nil {
-			client.Flush()
-		}
-	}()
+	// sigc := make(chan os.Signal, 1)
+	// signal.Notify(sigc,
+	// 	syscall.SIGHUP,
+	// 	syscall.SIGINT,
+	// 	syscall.SIGTERM,
+	// 	syscall.SIGQUIT)
+	// go func() {
+	// 	s := <-sigc
+	// 	if s != nil {
+	// 		client.Flush()
+	// 	}
+	// }()
 
 	return &LogglyHook{
 		client: client,
