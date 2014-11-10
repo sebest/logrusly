@@ -9,13 +9,15 @@ import (
 	"github.com/sebest/go-loggly"
 )
 
-// LogglyHook to send log messages to the Loggly API. You must set:
+// LogglyHook to send logs to the Loggly service.
 type LogglyHook struct {
 	client *loggly.Client
 	host   string
+	levels []logrus.Level
 }
 
-func NewLogglyHook(token string, host string, tags ...string) *LogglyHook {
+// NewLogglyHook creates a Loogly hook to be added to an instance of logger.
+func NewLogglyHook(token string, host string, level logrus.Level, tags ...string) *LogglyHook {
 	client := loggly.New(token, tags...)
 	client.Defaults = loggly.Message{}
 
@@ -32,12 +34,28 @@ func NewLogglyHook(token string, host string, tags ...string) *LogglyHook {
 	// 	}
 	// }()
 
+	levels := []logrus.Level{}
+	for _, l := range []logrus.Level{
+		logrus.PanicLevel,
+		logrus.FatalLevel,
+		logrus.ErrorLevel,
+		logrus.WarnLevel,
+		logrus.InfoLevel,
+		logrus.DebugLevel,
+	} {
+		if l <= level {
+			levels = append(levels, l)
+		}
+	}
+
 	return &LogglyHook{
 		client: client,
 		host:   host,
+		levels: levels,
 	}
 }
 
+// Fire sends the event to Loggly
 func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 	level := entry.Level.String()
 	logglyMessage := loggly.Message{
@@ -65,17 +83,12 @@ func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 	return nil
 }
 
+// Flush sends buffered events to Loggly.
 func (hook *LogglyHook) Flush() {
 	hook.client.Flush()
 }
 
+// Levels returns the list of logging levels that we want to send to Loggly.
 func (hook *LogglyHook) Levels() []logrus.Level {
-	return []logrus.Level{
-		logrus.DebugLevel,
-		logrus.InfoLevel,
-		logrus.WarnLevel,
-		logrus.ErrorLevel,
-		logrus.FatalLevel,
-		logrus.PanicLevel,
-	}
+	return hook.levels
 }

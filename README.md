@@ -14,7 +14,7 @@ var logglyToken string = "YOUR_LOGGLY_TOKEN"
 
 func main() {
 	log := logrus.New()
-	hook := logrusly.NewLogglyHook(logglyToken, "www.hostname.com", "tag1", "tag2")
+	hook := logrusly.NewLogglyHook(logglyToken, "www.hostname.com", logrus.WarnLevel, "tag1", "tag2")
 	log.Hooks.Add(hook)
 
 	log.WithFields(logrus.Fields{
