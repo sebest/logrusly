@@ -23,7 +23,7 @@ func main() {
 	}).Error("Hello world!")
 
 	// Flush is automatic for panic/fatal
-	// Just make just to Flush() before exiting or you may loose up to 5 seconds
+	// Just make sure to Flush() before exiting or you may loose up to 5 seconds
 	// worth of messages.
 	hook.Flush()
 }
