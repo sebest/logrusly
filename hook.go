@@ -5,8 +5,7 @@ import (
 	"time"
 
 	"github.com/Sirupsen/logrus"
-	// Use this fork until the fixes are accepted upstream https://github.com/segmentio/go-loggly/pull/6
-	"github.com/sebest/go-loggly"
+	"github.com/segmentio/go-loggly"
 )
 
 // LogglyHook to send logs to the Loggly service.
