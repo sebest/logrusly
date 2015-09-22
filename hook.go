@@ -54,6 +54,11 @@ func NewLogglyHook(token string, host string, level logrus.Level, tags ...string
 	}
 }
 
+// Tag exposes the go-loggly .Tag() functionality
+func (hook *LogglyHook) Tag(tags string) {
+	hook.client.Tag(tags)
+}
+
 // Fire sends the event to Loggly
 func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 	level := entry.Level.String()
