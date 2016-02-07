@@ -2,7 +2,6 @@ package logrusly
 
 import (
 	"strings"
-	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/segmentio/go-loggly"
@@ -76,7 +75,7 @@ func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 	level := entry.Level.String()
 
 	logglyMessage := loggly.Message{
-		"timestamp": entry.Time.UTC().Format(time.RFC3339Nano),
+		"timestamp": entry.Time.UTC().Format("2006-01-02T15:04:05.999Z-07:00"),
 		"level":     strings.ToUpper(level),
 		"message":   entry.Message,
 		"host":      hook.host,
