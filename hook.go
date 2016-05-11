@@ -2,7 +2,6 @@ package logrusly
 
 import (
 	"strings"
-	"time"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/segmentio/go-loggly"
@@ -14,6 +13,13 @@ type LogglyHook struct {
 	host   string
 	levels []logrus.Level
 }
+
+const (
+
+	// RFC3339Micro represents microseconds/seconds fraction (6 digits)
+	// that can be automatically parse by Loggly
+	RFC3339Micro = "2006-01-02T15:04:05.999999Z07:00"
+)
 
 // NewLogglyHook creates a Loogly hook to be added to an instance of logger.
 func NewLogglyHook(token string, host string, level logrus.Level, tags ...string) *LogglyHook {
@@ -76,7 +82,7 @@ func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 	level := entry.Level.String()
 
 	logglyMessage := loggly.Message{
-		"timestamp": entry.Time.UTC().Format(time.RFC3339Nano),
+		"timestamp": entry.Time.UTC().Format(RFC3339Micro),
 		"level":     strings.ToUpper(level),
 		"message":   entry.Message,
 		"host":      hook.host,
