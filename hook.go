@@ -3,8 +3,8 @@ package logrusly
 import (
 	"strings"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/segmentio/go-loggly"
+	"github.com/sirupsen/logrus"
 )
 
 // LogglyHook to send logs to the Loggly service.
