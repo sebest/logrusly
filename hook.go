@@ -21,7 +21,7 @@ const (
 	RFC3339Micro = "2006-01-02T15:04:05.999999Z07:00"
 )
 
-// NewLogglyHook creates a Loogly hook to be added to an instance of logger.
+// NewLogglyHook creates a Loggly hook to be added to an instance of logger.
 func NewLogglyHook(token string, host string, level logrus.Level, tags ...string) *LogglyHook {
 	client := loggly.New(token, tags...)
 	client.Defaults = loggly.Message{}
