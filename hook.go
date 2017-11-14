@@ -3,8 +3,8 @@ package logrusly
 import (
 	"strings"
 
-	"github.com/sirupsen/logrus"
 	"github.com/segmentio/go-loggly"
+	"github.com/sirupsen/logrus"
 )
 
 // LogglyHook to send logs to the Loggly service.
@@ -40,14 +40,7 @@ func NewLogglyHook(token string, host string, level logrus.Level, tags ...string
 	// }()
 
 	levels := []logrus.Level{}
-	for _, l := range []logrus.Level{
-		logrus.PanicLevel,
-		logrus.FatalLevel,
-		logrus.ErrorLevel,
-		logrus.WarnLevel,
-		logrus.InfoLevel,
-		logrus.DebugLevel,
-	} {
+	for _, l := range logrus.AllLevels {
 		if l <= level {
 			levels = append(levels, l)
 		}
