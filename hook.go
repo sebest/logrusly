@@ -9,9 +9,10 @@ import (
 
 // LogglyHook to send logs to the Loggly service.
 type LogglyHook struct {
-	client *loggly.Client
-	host   string
-	levels []logrus.Level
+	client          *loggly.Client
+	host            string
+	levels          []logrus.Level
+	ignoreHostField bool
 }
 
 const (
@@ -78,8 +79,11 @@ func (hook *LogglyHook) Fire(entry *logrus.Entry) error {
 		"timestamp": entry.Time.UTC().Format(RFC3339Micro),
 		"level":     strings.ToUpper(level),
 		"message":   entry.Message,
-		"host":      hook.host,
 		"data":      data,
+	}
+
+	if !hook.ignoreHostField {
+		logglyMessage["host"] = hook.host
 	}
 
 	err := hook.client.Send(logglyMessage)
@@ -107,4 +111,9 @@ func (hook *LogglyHook) Flush() {
 // Levels returns the list of logging levels that we want to send to Loggly.
 func (hook *LogglyHook) Levels() []logrus.Level {
 	return hook.levels
+}
+
+// IgnoreHostField sets if ignore pushing host field
+func (hook *LogglyHook) IgnoreHostField(ignore bool) {
+	hook.ignoreHostField = ignore
 }
