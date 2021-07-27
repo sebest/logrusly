@@ -17,7 +17,7 @@ type LogglyHook struct {
 const (
 
 	// RFC3339Micro represents microseconds/seconds fraction (6 digits)
-	// that can be automatically parse by Loggly
+	// that can be automatically parsed by Loggly
 	RFC3339Micro = "2006-01-02T15:04:05.999999Z07:00"
 )
 
